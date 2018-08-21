@@ -11,16 +11,15 @@ go get github.com/google/go-querystring
 ```
 publicApi := public.NewApiClient()
 currency, err := publicApi.Currencies("btc")
-	if err != nil {
-		fmt.Println(err)
-	}
+if err != nil {
+    fmt.Println(err)
+}
 fmt.Println(currency)
-
 
 privateApi := private.NewApiClient("API_KEY", "SECRET_KEY")
 getInfo, err := privateApi.GetInfo()
 if err != nil {
-    log.Println(err)
+    fmt.Println(err)
 }
 fmt.Println(getInfo)
 ```
