@@ -2,8 +2,8 @@ package private
 
 type ActiveOrdersParams struct {
 	CurrencyPair string `url:"currency_pair,omitempty"`
-	IsToken      bool   `url:"is_token,omitempty"`
-	IsTokenBoth  bool   `url:"is_token_both,omitempty"`
+	IsToken      bool   `url:"is_token,omitempty"`      // 非推奨
+	IsTokenBoth  bool   `url:"is_token_both,omitempty"` // 非推奨
 }
 
 type ActiveOrdersResponse struct {

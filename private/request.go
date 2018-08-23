@@ -8,17 +8,17 @@ import (
 	"strings"
 )
 
-const tradeApiEndpoint = "https://api.zaif.jp/tapi"
-
 type ApiClient struct {
-	Key    string
-	Secret string
+	Key      string
+	Secret   string
+	Endpoint string
 }
 
-func NewApiClient(key string, secret string) *ApiClient {
+func NewApiClient(key string, secret string, endpoint string) *ApiClient {
 	return &ApiClient{
-		Key:    key,
-		Secret: secret,
+		Key:      key,
+		Secret:   secret,
+		Endpoint: endpoint,
 	}
 }
 
@@ -27,10 +27,10 @@ type ApiParams struct {
 	Nonce  string `url:"nonce"`
 }
 
-func newTradeApiParams(method string) ApiParams {
+func newPrivateApiParams(method string) ApiParams {
 	return ApiParams{
 		Method: method,
-		Nonce:  zaif_go.GetNonce(),
+		Nonce:  zaif.GetNonce(),
 	}
 }
 
@@ -48,7 +48,7 @@ type ApiResponse struct {
 }
 
 func (api *ApiClient) Request(method string, param interface{}, ret interface{}) error {
-	values, err := query.Values(newTradeApiParams(method))
+	values, err := query.Values(newPrivateApiParams(method))
 	if err != nil {
 		return err
 	}
@@ -61,13 +61,13 @@ func (api *ApiClient) Request(method string, param interface{}, ret interface{})
 		encodedParams += "&" + params.Encode()
 	}
 
-	req, err := http.NewRequest("POST", tradeApiEndpoint, strings.NewReader(encodedParams))
+	req, err := http.NewRequest("POST", api.Endpoint, strings.NewReader(encodedParams))
 	if err != nil {
 		return err
 	}
 	req.Header.Add("Content-Type", "application/x-www-form-urlencoded")
 	req.Header.Add("Key", api.Key)
-	req.Header.Add("Sign", zaif_go.Sign(encodedParams, api.Secret))
+	req.Header.Add("Sign", zaif.Sign(encodedParams, api.Secret))
 
 	res, err := http.DefaultClient.Do(req)
 	if err != nil {

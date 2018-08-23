@@ -1,5 +1,6 @@
 # zaif-go
 Zaif API wrapper for Golang
+Test is not completed.Please be careful to use.
 
 # Install
 ```

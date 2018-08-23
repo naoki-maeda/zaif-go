@@ -1,6 +1,6 @@
 package public
 
-type CurrencyPairs struct {
+type CurrencyPairsMethod struct {
 	Name         string  `json:"name"`
 	Title        string  `json:"title"`
 	CurrencyPair string  `json:"currency_pair"`
@@ -17,8 +17,8 @@ type CurrencyPairs struct {
 	AuxJapanese  string  `json:"aux_japanese"`
 }
 
-func (api *ApiClient) CurrencyPairs(currencyPair string) ([]CurrencyPairs, error) {
-	var currencyPairs []CurrencyPairs
-	err := api.Request("currency_pairs", currencyPair, &currencyPairs)
+func (api *ApiClient) CurrencyPairs(currencyPair string) ([]CurrencyPairsMethod, error) {
+	var currencyPairs []CurrencyPairsMethod
+	err := api.GetRequest("currency_pairs", currencyPair, &currencyPairs)
 	return currencyPairs, err
 }

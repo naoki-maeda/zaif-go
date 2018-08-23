@@ -1,6 +1,6 @@
 package public
 
-type Ticker struct {
+type TickerMethod struct {
 	Last   float64 `json:"last"`
 	High   float64 `json:"high"`
 	Low    float64 `json:"low"`
@@ -10,8 +10,8 @@ type Ticker struct {
 	Ask    float64 `json:"ask"`
 }
 
-func (api *ApiClient) Ticker(currencyPair string) (*Ticker, error) {
-	var ticker *Ticker
-	err := api.Request("ticker", currencyPair, &ticker)
+func (api *ApiClient) Ticker(currencyPair string) (*TickerMethod, error) {
+	var ticker *TickerMethod
+	err := api.GetRequest("ticker", currencyPair, &ticker)
 	return ticker, err
 }

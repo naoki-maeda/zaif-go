@@ -1,20 +1,20 @@
 package public
 
 import (
-	"encoding/json"
 	"net/http"
+	"encoding/json"
 )
 
-const publicApiEndpoint = "https://api.zaif.jp/api/1"
-
-type ApiClient struct{}
-
-func NewApiClient() *ApiClient {
-	return &ApiClient{}
+type ApiClient struct {
+	Endpoint string
 }
 
-func (api *ApiClient) Request(method string, param string, ret interface{}) error {
-	res, err := http.Get(publicApiEndpoint + "/" + method + "/" + param)
+func NewApiClient(endpoint string) *ApiClient {
+	return &ApiClient{endpoint}
+}
+
+func (api *ApiClient) GetRequest(method string, param string, ret interface{}) error {
+	res, err := http.Get(api.Endpoint + "/" + method + "/" + param)
 	if err != nil {
 		return err
 	}

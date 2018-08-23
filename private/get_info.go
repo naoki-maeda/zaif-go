@@ -9,7 +9,7 @@ type GetInfoResponse struct {
 		ZAIF   float64 `json:"ZAIF"`
 		XCP    float64 `json:"XCP"`
 		SJCX   float64 `json:"SJCX"`
-		BCY  float64 `json:"BITCRISTALS"`
+		BCY    float64 `json:"BITCRISTALS"`
 		PEPE   float64 `json:"PEPECASH"`
 		FSCC   float64 `json:"FSCC"`
 		CICC   float64 `json:"CICC"`
@@ -28,7 +28,7 @@ type GetInfoResponse struct {
 		ZAIF   float64 `json:"ZAIF"`
 		XCP    float64 `json:"XCP"`
 		SJCX   float64 `json:"SJCX"`
-		BCY  float64 `json:"BITCRISTALS"`
+		BCY    float64 `json:"BITCRISTALS"`
 		PEPE   float64 `json:"PEPECASH"`
 		FSCC   float64 `json:"FSCC"`
 		CICC   float64 `json:"CICC"`
