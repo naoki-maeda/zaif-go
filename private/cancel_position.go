@@ -9,7 +9,7 @@ type CancelPositionParams struct {
 type CancelPositionResponse struct {
 	LeverageId       int     `json:"leverage_id"`
 	FeeSpent         float64 `json:"fee_spent"`
-	TimestampClosed  int     `json:"timestamp_closed"`
+	TimestampClosed  string  `json:"timestamp_closed"`
 	PriceAvg         float64 `json:"price_avg"`
 	AmountDone       float64 `json:"amount_done"`
 	CloseAvg         float64 `json:"close_avg"`
