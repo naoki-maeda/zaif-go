@@ -1,7 +1,6 @@
 package private
 
 import (
-	"encoding/json"
 	"github.com/google/go-querystring/query"
 	"github.com/naoki-maeda/zaif-go"
 	"net/http"
@@ -47,7 +46,7 @@ type ApiResponse struct {
 	Error   string `json:"error"`
 }
 
-func (api *ApiClient) Request(method string, param interface{}, ret interface{}) error {
+func (api *ApiClient) Request(method string, param interface{}, out interface{}) error {
 	values, err := query.Values(newPrivateApiParams(method))
 	if err != nil {
 		return err
@@ -69,12 +68,11 @@ func (api *ApiClient) Request(method string, param interface{}, ret interface{})
 	req.Header.Add("Key", api.Key)
 	req.Header.Add("Sign", zaif.Sign(encodedParams, api.Secret))
 
-	res, err := http.DefaultClient.Do(req)
+	resp, err := http.DefaultClient.Do(req)
 	if err != nil {
 		return err
 	}
 
-	defer res.Body.Close()
-	decode := json.NewDecoder(res.Body)
-	return decode.Decode(ret)
+	decoder := zaif.DecodeBody(resp, out)
+	return decoder
 }

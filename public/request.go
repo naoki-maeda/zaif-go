@@ -2,7 +2,7 @@ package public
 
 import (
 	"net/http"
-	"encoding/json"
+	"github.com/naoki-maeda/zaif-go"
 )
 
 type ApiClient struct {
@@ -13,12 +13,11 @@ func NewApiClient(endpoint string) *ApiClient {
 	return &ApiClient{endpoint}
 }
 
-func (api *ApiClient) GetRequest(method string, param string, ret interface{}) error {
-	res, err := http.Get(api.Endpoint + "/" + method + "/" + param)
+func (api *ApiClient) GetRequest(method string, param string, out interface{}) error {
+	resp, err := http.Get(api.Endpoint + "/" + method + "/" + param)
 	if err != nil {
 		return err
 	}
-	defer res.Body.Close()
-	decode := json.NewDecoder(res.Body)
-	return decode.Decode(ret)
+	decoder := zaif.DecodeBody(resp, out)
+	return decoder
 }
