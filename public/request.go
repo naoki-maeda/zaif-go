@@ -1,8 +1,8 @@
 package public
 
 import (
-	"net/http"
 	"encoding/json"
+	"net/http"
 )
 
 type ApiClient struct {
