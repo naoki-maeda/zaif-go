@@ -4,9 +4,9 @@ type ChangePositionParams struct {
 	Type       string  `url:"type"`               // margin or futures
 	GroupID    int     `url:"group_id,omitempty"` // type = futuresの場合必須
 	LeverageId int     `url:"leverage_id"`
-	Price      float64 `json:"price"`
-	Limit      float64 `json:"limit,omitempty"`
-	Stop       float64 `json:"stop,omitempty"`
+	Price      float64 `url:"price"`
+	Limit      float64 `url:"limit,omitempty"`
+	Stop       float64 `url:"stop,omitempty"`
 }
 
 type ChangePositionResponse struct {
@@ -24,10 +24,10 @@ type ChangePositionResponse struct {
 
 type ChangePositionAPIResponse struct {
 	ApiResponse
-	Response map[string]ChangePositionResponse `json:"return"`
+	Response *ChangePositionResponse `json:"return"`
 }
 
-func (api *ApiClient) ChangePosition(param ChangePositionParams) (map[string]ChangePositionResponse, error) {
+func (api *ApiClient) ChangePosition(param ChangePositionParams) (*ChangePositionResponse, error) {
 	var res ChangePositionAPIResponse
 	if err := api.Request("change_position", param, &res); err != nil {
 		return nil, err

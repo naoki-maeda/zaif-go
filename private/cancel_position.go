@@ -41,10 +41,10 @@ type CancelPositionResponse struct {
 
 type CancelPositionAPIResponse struct {
 	ApiResponse
-	Response map[string]CancelPositionResponse `json:"return"`
+	Response *CancelPositionResponse `json:"return"`
 }
 
-func (api *ApiClient) CancelPosition(param CancelPositionParams) (map[string]CancelPositionResponse, error) {
+func (api *ApiClient) CancelPosition(param CancelPositionParams) (*CancelPositionResponse, error) {
 	var res CancelPositionAPIResponse
 	if err := api.Request("cancel_position", param, &res); err != nil {
 		return nil, err

@@ -4,23 +4,29 @@ type CreatePositionParams struct {
 	Type         string  `url:"type"`               // margin or futures
 	GroupID      int     `url:"group_id,omitempty"` // type = futuresの場合必須
 	CurrencyPair string  `url:"currency_pair"`
-	Action       string  `json:"action"`
-	Price        float64 `json:"price"`
-	Amount       float64 `json:"amount"`
-	Leverage     float64 `json:"leverage"`
-	Limit        float64 `json:"limit,omitempty"`
-	Stop         float64 `json:"stop,omitempty"`
+	Action       string  `url:"action"`
+	Price        float64 `url:"price"`
+	Amount       float64 `url:"amount"`
+	Leverage     float64 `url:"leverage"`
+	Limit        float64 `url:"limit,omitempty"`
+	Stop         float64 `url:"stop,omitempty"`
 }
 
 type CreatePositionResponse struct {
-	LeverageId      int     `json:"leverage_id"`
-	Timestamp       string  `json:"timestamp"`
-	TermEnd         int     `json:"term_end"`
-	PriceAvg        float64 `json:"price_avg"`
-	AmountDone      float64 `json:"amount_done"`
-	DepositBtc      float64 `json:"deposit_btc"`
-	DepositPriceBtc float64 `json:"deposit_price_btc"`
-	Funds           struct {
+	LeverageId       int     `json:"leverage_id"`
+	Timestamp        string  `json:"timestamp"`
+	TermEnd          int     `json:"term_end"`
+	PriceAvg         float64 `json:"price_avg"`
+	AmountDone       float64 `json:"amount_done"`
+	DepositJPY       float64 `json:"deposit_jpy"`
+	DepositBTC       float64 `json:"deposit_btc"`
+	DepositXEM       float64 `json:"deposit_xem"`
+	DepositMONA      float64 `json:"deposit_mona"`
+	DepositPriceJPY  float64 `json:"deposit_price_jpy"`
+	DepositPriceBTC  float64 `json:"deposit_price_btc"`
+	DepositPriceXEM  float64 `json:"deposit_price_xem"`
+	DepositPriceMONA float64 `json:"deposit_price_mona"`
+	Funds            struct {
 		BTC    float64 `json:"btc"`
 		JPY    float64 `json:"jpy"`
 		MONA   float64 `json:"mona"`
@@ -43,10 +49,10 @@ type CreatePositionResponse struct {
 
 type CreatePositionAPIResponse struct {
 	ApiResponse
-	Response map[string]CreatePositionResponse `json:"return"`
+	Response *CreatePositionResponse `json:"return"`
 }
 
-func (api *ApiClient) CreatePosition(param CreatePositionParams) (map[string]CreatePositionResponse, error) {
+func (api *ApiClient) CreatePosition(param CreatePositionParams) (*CreatePositionResponse, error) {
 	var res CreatePositionAPIResponse
 	if err := api.Request("create_position", param, &res); err != nil {
 		return nil, err

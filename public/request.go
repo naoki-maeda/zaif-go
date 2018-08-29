@@ -1,8 +1,8 @@
 package public
 
 import (
-	"net/http"
 	"github.com/naoki-maeda/zaif-go"
+	"net/http"
 )
 
 type ApiClient struct {
