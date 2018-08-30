@@ -1,8 +1,7 @@
 package public
 
 type FuturesLastPriceMethod struct {
-	GroupId   int     `json:"group_id"`
-	LastPrice float64 `json:"currency_pair"`
+	LastPrice float64 `json:"last_price"`
 }
 
 func (api *ApiClient) FuturesLastPrice(groupId string, currencyPair string) (*FuturesLastPriceMethod, error) {
