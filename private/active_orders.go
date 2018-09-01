@@ -11,7 +11,7 @@ type ActiveOrdersResponse struct {
 	Action       string  `json:"action"`
 	Amount       float64 `json:"amount"`
 	Price        float64 `json:"price"`
-	Timestamp    int     `json:"timestamp"`
+	Timestamp    string  `json:"timestamp"`
 }
 
 type activeOrdersApiResponse struct {

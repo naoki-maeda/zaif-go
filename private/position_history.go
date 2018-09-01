@@ -12,7 +12,7 @@ type PositionHistoryResponse struct {
 	Action        string  `json:"action"`
 	Amount        float64 `json:"amount"`
 	Price         float64 `json:"price"`
-	Timestamp     int     `json:"timestamp"`
+	Timestamp     string  `json:"timestamp"`
 	Stop          float64 `json:"stop"`
 	YourAction    string  `json:"your_action"`
 	BidLeverageId int     `json:"bid_leverage_id"`

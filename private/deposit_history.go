@@ -12,7 +12,7 @@ type DepositHistoryParams struct {
 }
 
 type DepositHistoryResponse struct {
-	Timestamp int     `json:"timestamp"`
+	Timestamp string  `json:"timestamp"`
 	Address   string  `json:"address"`
 	Amount    float64 `json:"amount"`
 	Txid      string  `json:"txid"`

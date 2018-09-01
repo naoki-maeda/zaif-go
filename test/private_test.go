@@ -261,7 +261,7 @@ func TestActiveOrders(t *testing.T) {
             	"action": "ask",
             	"amount": 0.03,
             	"price": 56000,
-            	"timestamp": 1402021125,
+            	"timestamp": "1402021125",
             	"comment" : "demo"
 			}
     	}
@@ -410,13 +410,13 @@ func TestDepositHistory(t *testing.T) {
     "success":1,
     	"return":{
         	"3816":{
-				"timestamp":1435745065,
+				"timestamp":"1435745065",
           		"address":"12qwQ3sPJJAosodSUhSpMds4WfUPBeFEM2",
           		"amount":0.001,
           		"txid":"64dcf59523379ba282ae8cd61d2e9382c7849afe3a3802c0abb08a60067a159f"
         	},
         	"3814":{
-          		"timestamp":1435548083,
+          		"timestamp":"1435548083",
           		"address":"12qwQ3sPJJAosodSUhSpMds4WfUPBeFEM2",
           		"amount":0.001,
           		"txid":"7d012cfff6e67a8938f93215367eef4177604459631ea62c85550980dca71819"
@@ -452,13 +452,13 @@ func TestWithdrawHistory(t *testing.T) {
     "success":1,
     	"return":{
         	"3816":{
-          		"timestamp":1435745065,
+          		"timestamp":"1435745065",
           		"address":"12qwQ3sPJJAosodSUhSpMds4WfUPBeFEM2",
           		"amount":0.001,
           		"txid":"64dcf59523379ba282ae8cd61d2e9382c7849afe3a3802c0abb08a60067a159f"
 			},
         	"3814":{
-          		"timestamp":1435548083,
+          		"timestamp":"1435548083",
           		"address":"12qwQ3sPJJAosodSUhSpMds4WfUPBeFEM2",
           		"amount":0.001,
           		"txid":"7d012cfff6e67a8938f93215367eef4177604459631ea62c85550980dca71819"
@@ -486,5 +486,5 @@ func TestWithdrawHistory(t *testing.T) {
 		t.Fatal(err)
 	}
 	assert.Equal(t, 0.001, res["3816"].Amount)
-	assert.Equal(t, 1435548083, res["3814"].Timestamp)
+	assert.Equal(t, "1435548083", res["3814"].Timestamp)
 }

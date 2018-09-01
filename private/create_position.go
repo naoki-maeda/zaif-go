@@ -14,8 +14,8 @@ type CreatePositionParams struct {
 
 type CreatePositionResponse struct {
 	LeverageId       int     `json:"leverage_id"`
-	Timestamp        int     `json:"timestamp"`
-	TermEnd          int     `json:"term_end"`
+	Timestamp        string  `json:"timestamp"`
+	TermEnd          string  `json:"term_end"`
 	PriceAvg         float64 `json:"price_avg"`
 	AmountDone       float64 `json:"amount_done"`
 	DepositJPY       float64 `json:"deposit_jpy"`

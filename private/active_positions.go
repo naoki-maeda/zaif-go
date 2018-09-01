@@ -14,10 +14,10 @@ type ActivePositionsResponse struct {
 	Price            float64 `json:"price"`
 	Limit            float64 `json:"limit"`
 	Stop             float64 `json:"stop"`
-	TermEnd          int     `json:"term_end"`
+	TermEnd          string  `json:"term_end"`
 	Leverage         float64 `json:"leverage"`
 	FeeSpent         float64 `json:"fee_spent"`
-	Timestamp        int     `json:"timestamp"`
+	Timestamp        string  `json:"timestamp"`
 	PriceAvg         float64 `json:"price_avg"`
 	AmountDone       float64 `json:"amount_done"`
 	CloseAvg         float64 `json:"close_avg"`

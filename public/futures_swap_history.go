@@ -1,7 +1,7 @@
 package public
 
 type SwapHistoryMethod struct {
-	Timestamp   int     `json:"timestamp"`
+	Timestamp   string  `json:"timestamp"`
 	SwapRateBid float64 `json:"swap_rate_bid"`
 	SwapRateAsk float64 `json:"swap_rate_ask"`
 }
