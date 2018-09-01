@@ -7,10 +7,10 @@ type GetPersonalInfoResponse struct {
 
 type GetPersonalInfoApiResponse struct {
 	ApiResponse
-	Response map[string]GetPersonalInfoResponse `json:"return"`
+	Response *GetPersonalInfoResponse `json:"return"`
 }
 
-func (api *ApiClient) GetPersonalInfo() (map[string]GetPersonalInfoResponse, error) {
+func (api *ApiClient) GetPersonalInfo() (*GetPersonalInfoResponse, error) {
 	var res GetPersonalInfoApiResponse
 	if err := api.Request("get_personal_info", nil, &res); err != nil {
 		return nil, err

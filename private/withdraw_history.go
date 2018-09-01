@@ -12,7 +12,7 @@ type WithdrawHistoryParams struct {
 }
 
 type WithdrawHistoryResponse struct {
-	Timestamp string  `json:"timestamp"`
+	Timestamp int     `json:"timestamp"`
 	Address   string  `json:"address"`
 	Amount    float64 `json:"amount"`
 	Txid      string  `json:"txid"`

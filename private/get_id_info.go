@@ -10,10 +10,10 @@ type GetIdInfoResponse struct {
 
 type GetIdInfoApiResponse struct {
 	ApiResponse
-	Response map[string]GetIdInfoResponse `json:"return"`
+	Response *GetIdInfoResponse `json:"return"`
 }
 
-func (api *ApiClient) GetIdInfo() (map[string]GetIdInfoResponse, error) {
+func (api *ApiClient) GetIdInfo() (*GetIdInfoResponse, error) {
 	var res GetIdInfoApiResponse
 	if err := api.Request("get_id_info", nil, &res); err != nil {
 		return nil, err

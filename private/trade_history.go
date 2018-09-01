@@ -19,7 +19,7 @@ type TradeHistoryResponse struct {
 	Price        float64 `json:"price"`
 	YourAction   string  `json:"your_action"`
 	Bonus        float64 `json:"bonus"`
-	Timestamp    string  `json:"timestamp"`
+	Timestamp    int     `json:"timestamp"`
 	Comment      string  `json:"comment"`
 }
 
@@ -28,7 +28,7 @@ type TradeHistoryAPIResponse struct {
 	Response map[string]TradeHistoryResponse `json:"return"`
 }
 
-func (api *ApiClient) TradeHistory(param TradeParams) (map[string]TradeHistoryResponse, error) {
+func (api *ApiClient) TradeHistory(param TradeHistoryParams) (map[string]TradeHistoryResponse, error) {
 	var res TradeHistoryAPIResponse
 	if err := api.Request("trade_history", param, &res); err != nil {
 		return nil, err
