@@ -12,11 +12,11 @@ type PositionHistoryResponse struct {
 	Action        string  `json:"action"`
 	Amount        float64 `json:"amount"`
 	Price         float64 `json:"price"`
-	Timestamp     string  `json:"timestamp"`
+	Timestamp     int     `json:"timestamp"`
 	Stop          float64 `json:"stop"`
 	YourAction    string  `json:"your_action"`
-	BidLeverageId string  `json:"bid_leverage_id"`
-	AskLeverageId string  `json:"ask_leverage_id"`
+	BidLeverageId int     `json:"bid_leverage_id"`
+	AskLeverageId int     `json:"ask_leverage_id"`
 }
 
 type PositionHistoryAPIResponse struct {

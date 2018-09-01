@@ -7,7 +7,7 @@ type ActivePositionsParams struct {
 }
 
 type ActivePositionsResponse struct {
-	GroupId          int     `json:"group_id"`
+	GroupId          string  `json:"group_id"`
 	CurrencyPair     string  `json:"currency_pair"`
 	Action           string  `json:"action"`
 	Amount           float64 `json:"amount"`
@@ -17,7 +17,7 @@ type ActivePositionsResponse struct {
 	TermEnd          int     `json:"term_end"`
 	Leverage         float64 `json:"leverage"`
 	FeeSpent         float64 `json:"fee_spent"`
-	Timestamp        string  `json:"timestamp"`
+	Timestamp        int     `json:"timestamp"`
 	PriceAvg         float64 `json:"price_avg"`
 	AmountDone       float64 `json:"amount_done"`
 	CloseAvg         float64 `json:"close_avg"`

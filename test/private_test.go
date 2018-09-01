@@ -94,6 +94,7 @@ func TestGetInfo(t *testing.T) {
 	assert.Equal(t, 1.389, res.Funds.BTC)
 	assert.Equal(t, 18, res.TradeCount)
 }
+
 func TestGetInfo2(t *testing.T) {
 	expected := `{
 	"success":1,
