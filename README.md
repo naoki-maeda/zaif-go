@@ -10,7 +10,7 @@ go get github.com/google/go-querystring
 ```
 
 # Example
-```
+```go
 const (
 	publicEndpoint = "https://api.zaif.jp/api/1"
 	privateEndpoint = "https://api.zaif.jp/tapi"
