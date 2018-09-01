@@ -223,7 +223,7 @@ func TestTradeHistory(t *testing.T) {
             	"fee": 0,
             	"your_action": "ask",
             	"bonus": 1.6,
-            	"timestamp": 1402018713,
+            	"timestamp": "1402018713",
             	"comment" : "demo"
         	}
     	}

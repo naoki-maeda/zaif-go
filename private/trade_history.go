@@ -19,7 +19,7 @@ type TradeHistoryResponse struct {
 	Price        float64 `json:"price"`
 	YourAction   string  `json:"your_action"`
 	Bonus        float64 `json:"bonus"`
-	Timestamp    int     `json:"timestamp"`
+	Timestamp    string  `json:"timestamp"`
 	Comment      string  `json:"comment"`
 }
 

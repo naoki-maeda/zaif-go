@@ -3,8 +3,8 @@ package public
 type GroupsMethod struct {
 	Id             int    `json:"id"`
 	CurrencyPair   string `json:"currency_pair"`
-	StartTimestamp string `json:"start_timestamp"`
-	EndTimestamp   string `json:"end_timestamp"`
+	StartTimestamp int    `json:"start_timestamp"`
+	EndTimestamp   int    `json:"end_timestamp"`
 	UseSwap        bool   `json:"use_swap"`
 }
 

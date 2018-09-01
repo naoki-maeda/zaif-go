@@ -16,8 +16,8 @@ func TestGroups(t *testing.T) {
 		body: `[{
 					"id": 1,
 					"currency_pair": "btc_jpy",
-					"start_timestamp": "1490972400",
-					"end_timestamp": "4102412399",
+					"start_timestamp": 1490972400,
+					"end_timestamp": 4102412399,
 					"use_swap": true
 				}]`,
 	}
@@ -175,12 +175,12 @@ func TestSwapHistory(t *testing.T) {
 	response := &Response{
 		path: "/swap_history" + "/" + groupId + "/" + currencyPair,
 		body: `[{
-        			"timestamp": "1504008000",
+        			"timestamp": 1504008000,
         			"swap_rate_bid": 0.1,
         			"swap_rate_ask": -0.1
     			},
     			{
-        			"timestamp": "1504000800",
+        			"timestamp": 1504000800,
 					"swap_rate_bid": 0.375,
         			"swap_rate_ask": -0.375
 				}]`,
@@ -201,5 +201,5 @@ func TestSwapHistory(t *testing.T) {
 		t.Fatal(err)
 	}
 	assert.Equal(t, -0.1, res[0].SwapRateAsk)
-	assert.Equal(t, "1504000800", res[1].Timestamp)
+	assert.Equal(t, 1504000800, res[1].Timestamp)
 }
