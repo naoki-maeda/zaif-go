@@ -3,6 +3,12 @@ Zaif API wrapper for Golang.
 
 Please use at your own risk.
 
+Zaif
+https://zaif.jp/
+
+Zaif API Document
+https://techbureau-api-document.readthedocs.io/ja/latest/index.html
+
 # Install
 ```
 go get github.com/naoki-maeda/zaif-go
