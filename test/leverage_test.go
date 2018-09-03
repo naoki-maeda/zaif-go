@@ -70,7 +70,7 @@ func TestPositionHistory(t *testing.T) {
             	"price": 499000,
             	"timestamp": "1504251232",
             	"your_action": "bid",
-            	"bid_leverage_id": 182
+            	"bid_leverage_id": "182"
         	},
         	"183": {
             	"group_id": 1,
@@ -80,7 +80,7 @@ func TestPositionHistory(t *testing.T) {
             	"price": 450000,
             	"timestamp": "1504251267",
             	"your_action": "ask",
-            	"ask_leverage_id": 182
+            	"ask_leverage_id": "182"
         	}
 		}
 	}`
@@ -105,7 +105,7 @@ func TestPositionHistory(t *testing.T) {
 		t.Fatal(err)
 	}
 	assert.Equal(t, "bid", res["182"].Action)
-	assert.Equal(t, 182, res["183"].AskLeverageId)
+	assert.Equal(t, "182", res["183"].AskLeverageId)
 }
 
 func TestActivePositions(t *testing.T) {
@@ -113,7 +113,7 @@ func TestActivePositions(t *testing.T) {
     "success": 1,
     	"return": {
         	"184": {
-            	"group_id": "1",
+            	"group_id": 1,
             	"currency_pair": "btc_jpy",
             	"action": "ask",
             	"amount": 0.0001,

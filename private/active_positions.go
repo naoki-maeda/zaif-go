@@ -7,7 +7,7 @@ type ActivePositionsParams struct {
 }
 
 type ActivePositionsResponse struct {
-	GroupId          string  `json:"group_id"`
+	GroupId          int     `json:"group_id"`
 	CurrencyPair     string  `json:"currency_pair"`
 	Action           string  `json:"action"`
 	Amount           float64 `json:"amount"`
