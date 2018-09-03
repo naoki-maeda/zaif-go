@@ -1,12 +1,13 @@
 # zaif-go
 Zaif API wrapper for Golang.
 
-Test is not completed.Please be careful to use.
+Please use at your own risk.
 
 # Install
 ```
 go get github.com/naoki-maeda/zaif-go
 go get github.com/google/go-querystring
+go get github.com/stretchr/testify
 ```
 
 # Example
