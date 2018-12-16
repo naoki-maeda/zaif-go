@@ -12,7 +12,6 @@ https://techbureau-api-document.readthedocs.io/ja/latest/index.html
 # Install
 ```
 go get github.com/naoki-maeda/zaif-go
-go get github.com/google/go-querystring
 go get github.com/stretchr/testify
 ```
 

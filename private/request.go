@@ -1,9 +1,9 @@
 package private
 
 import (
-	"github.com/google/go-querystring/query"
 	"github.com/naoki-maeda/zaif-go"
 	"net/http"
+	"net/url"
 	"strings"
 )
 
@@ -47,26 +47,18 @@ type ApiResponse struct {
 }
 
 func (api *ApiClient) Request(method string, param interface{}, out interface{}) error {
-	values, err := query.Values(newPrivateApiParams(method))
-	if err != nil {
-		return err
-	}
-	encodedParams := values.Encode()
-	if param != nil {
-		params, err := query.Values(param)
-		if err != nil {
-			return err
-		}
-		encodedParams += "&" + params.Encode()
-	}
+	params := newPrivateApiParams(method)
+	values := url.Values{}
+	values.Add("method", params.Method)
+	values.Add("nonce", params.Nonce)
 
-	req, err := http.NewRequest("POST", api.Endpoint, strings.NewReader(encodedParams))
+	req, err := http.NewRequest("POST", api.Endpoint, strings.NewReader(values.Encode()))
 	if err != nil {
 		return err
 	}
 	req.Header.Add("Content-Type", "application/x-www-form-urlencoded")
 	req.Header.Add("Key", api.Key)
-	req.Header.Add("Sign", zaif.Sign(encodedParams, api.Secret))
+	req.Header.Add("Sign", zaif.Sign(values.Encode(), api.Secret))
 
 	resp, err := http.DefaultClient.Do(req)
 	if err != nil {
