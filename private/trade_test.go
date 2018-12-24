@@ -1,8 +1,7 @@
-package test
+package private
 
 import (
 	"github.com/naoki-maeda/zaif-go"
-	"github.com/naoki-maeda/zaif-go/private"
 	"github.com/stretchr/testify/assert"
 	"io"
 	"net/http"
@@ -19,9 +18,11 @@ type RequestItem struct {
 	Key          string
 	Sign         string
 	ContentType  string
+	Params       interface{}
 	ExpectedBody string
 }
 
+// NOTE: 本来パラメータの確認をすべきだけど、リクエストヘッダーにsignして入れるため確認が手間なので、返り値の確認のみとする
 func NewRequest(method string, body string) *RequestItem {
 	return &RequestItem{
 		Key:          apiKey,
@@ -29,16 +30,6 @@ func NewRequest(method string, body string) *RequestItem {
 		ContentType:  "application/x-www-form-urlencoded",
 		ExpectedBody: body,
 	}
-}
-
-func (i *RequestItem) CreateHandler(t *testing.T, w http.ResponseWriter, r *http.Request) {
-	w.Header().Set("Content-Type", i.ContentType)
-	w.Header().Set("Key", i.Key)
-	w.Header().Set("Sign", i.Sign)
-	if r.Method != "POST" {
-		t.Errorf("Expected ‘POST’ request, got ‘%s’", r.Method)
-	}
-	io.WriteString(w, i.ExpectedBody)
 }
 
 func TestGetInfo(t *testing.T) {
@@ -79,13 +70,16 @@ func TestGetInfo(t *testing.T) {
 		if r.Method != "POST" {
 			t.Errorf("Expected ‘POST’ request, got ‘%s’", r.Method)
 		}
-		io.WriteString(w, request.ExpectedBody)
+		_, err := io.WriteString(w, request.ExpectedBody)
+		if err != nil {
+			t.Errorf("Fail write body")
+		}
 	}
 
 	server := httptest.NewServer(http.HandlerFunc(handler))
 	defer server.Close()
 
-	client := private.NewApiClient(apiKey, apiSecret, server.URL)
+	client := NewApiClient(apiKey, apiSecret, server.URL)
 
 	res, err := client.GetInfo()
 	if err != nil {
@@ -131,12 +125,15 @@ func TestGetInfo2(t *testing.T) {
 		if r.Method != "POST" {
 			t.Errorf("Expected ‘POST’ request, got ‘%s’", r.Method)
 		}
-		io.WriteString(w, request.ExpectedBody)
+		_, err := io.WriteString(w, request.ExpectedBody)
+		if err != nil {
+			t.Errorf("Fail write body")
+		}
 	}
 
 	server := httptest.NewServer(http.HandlerFunc(handler))
 	defer server.Close()
-	client := private.NewApiClient(apiKey, apiSecret, server.URL)
+	client := NewApiClient(apiKey, apiSecret, server.URL)
 	res, err := client.GetInfo2()
 	if err != nil {
 		t.Fatal(err)
@@ -161,13 +158,16 @@ func TestGetPersonalInfo(t *testing.T) {
 		if r.Method != "POST" {
 			t.Errorf("Expected ‘POST’ request, got ‘%s’", r.Method)
 		}
-		io.WriteString(w, request.ExpectedBody)
+		_, err := io.WriteString(w, request.ExpectedBody)
+		if err != nil {
+			t.Errorf("Fail write body")
+		}
 	}
 
 	server := httptest.NewServer(http.HandlerFunc(handler))
 	defer server.Close()
 
-	client := private.NewApiClient(apiKey, apiSecret, server.URL)
+	client := NewApiClient(apiKey, apiSecret, server.URL)
 
 	res, err := client.GetPersonalInfo()
 	if err != nil {
@@ -195,13 +195,16 @@ func TestGetIdInfo(t *testing.T) {
 		if r.Method != "POST" {
 			t.Errorf("Expected ‘POST’ request, got ‘%s’", r.Method)
 		}
-		io.WriteString(w, request.ExpectedBody)
+		_, err := io.WriteString(w, request.ExpectedBody)
+		if err != nil {
+			t.Errorf("Fail write body")
+		}
 	}
 
 	server := httptest.NewServer(http.HandlerFunc(handler))
 	defer server.Close()
 
-	client := private.NewApiClient(apiKey, apiSecret, server.URL)
+	client := NewApiClient(apiKey, apiSecret, server.URL)
 
 	res, err := client.GetIdInfo()
 	if err != nil {
@@ -228,6 +231,7 @@ func TestTradeHistory(t *testing.T) {
         	}
     	}
 	}`
+	params := TradeHistoryParams{CurrencyPair: "btc_jpy"}
 	request := NewRequest("trade_history", expected)
 	handler := func(w http.ResponseWriter, r *http.Request) {
 		w.Header().Set("Content-Type", request.ContentType)
@@ -242,9 +246,9 @@ func TestTradeHistory(t *testing.T) {
 	server := httptest.NewServer(http.HandlerFunc(handler))
 	defer server.Close()
 
-	client := private.NewApiClient(apiKey, apiSecret, server.URL)
+	client := NewApiClient(apiKey, apiSecret, server.URL)
 
-	res, err := client.TradeHistory(private.TradeHistoryParams{CurrencyPair: "btc_jpy"})
+	res, err := client.TradeHistory(params)
 	if err != nil {
 		t.Fatal(err)
 	}
@@ -266,6 +270,7 @@ func TestActiveOrders(t *testing.T) {
 			}
     	}
 	}`
+	params := ActiveOrdersParams{CurrencyPair: "btc_jpy"}
 	request := NewRequest("active_orders", expected)
 	handler := func(w http.ResponseWriter, r *http.Request) {
 		w.Header().Set("Content-Type", request.ContentType)
@@ -274,15 +279,18 @@ func TestActiveOrders(t *testing.T) {
 		if r.Method != "POST" {
 			t.Errorf("Expected ‘POST’ request, got ‘%s’", r.Method)
 		}
-		io.WriteString(w, request.ExpectedBody)
+		_, err := io.WriteString(w, request.ExpectedBody)
+		if err != nil {
+			t.Errorf("Fail write body")
+		}
 	}
 
 	server := httptest.NewServer(http.HandlerFunc(handler))
 	defer server.Close()
 
-	client := private.NewApiClient(apiKey, apiSecret, server.URL)
+	client := NewApiClient(apiKey, apiSecret, server.URL)
 
-	res, err := client.ActiveOrders(private.ActiveOrdersParams{CurrencyPair: "btc_jpy"})
+	res, err := client.ActiveOrders(params)
 	if err != nil {
 		t.Fatal(err)
 	}
@@ -304,6 +312,7 @@ func TestTrade(t *testing.T) {
         	}
     	}
 	}`
+	params := TradeParams{CurrencyPair: "mona_jpy", Action: "bid", Price: 500, Amount: 10}
 	request := NewRequest("trade", expected)
 	handler := func(w http.ResponseWriter, r *http.Request) {
 		w.Header().Set("Content-Type", request.ContentType)
@@ -312,19 +321,21 @@ func TestTrade(t *testing.T) {
 		if r.Method != "POST" {
 			t.Errorf("Expected ‘POST’ request, got ‘%s’", r.Method)
 		}
-		io.WriteString(w, request.ExpectedBody)
+		_, err := io.WriteString(w, request.ExpectedBody)
+		if err != nil {
+			t.Errorf("Fail write body")
+		}
 	}
 
 	server := httptest.NewServer(http.HandlerFunc(handler))
 	defer server.Close()
 
-	client := private.NewApiClient(apiKey, apiSecret, server.URL)
+	client := NewApiClient(apiKey, apiSecret, server.URL)
 
-	res, err := client.Trade(private.TradeParams{CurrencyPair: "mona_jpy", Action: "bid", Price: 500, Amount: 10})
+	res, err := client.Trade(params)
 	if err != nil {
 		t.Fatal(err)
 	}
-
 	assert.Equal(t, 0.1, res.Received)
 	assert.Equal(t, float64(2600), res.Funds.MONA) // floatに変換して無理やり通す
 }
@@ -342,6 +353,7 @@ func TestCancelOrder(t *testing.T) {
         	}
     	}
 	}`
+	params := CancelOrderParams{OrderID: 184}
 	request := NewRequest("cancel_order", expected)
 	handler := func(w http.ResponseWriter, r *http.Request) {
 		w.Header().Set("Content-Type", request.ContentType)
@@ -350,15 +362,18 @@ func TestCancelOrder(t *testing.T) {
 		if r.Method != "POST" {
 			t.Errorf("Expected ‘POST’ request, got ‘%s’", r.Method)
 		}
-		io.WriteString(w, request.ExpectedBody)
+		_, err := io.WriteString(w, request.ExpectedBody)
+		if err != nil {
+			t.Errorf("Fail write body")
+		}
 	}
 
 	server := httptest.NewServer(http.HandlerFunc(handler))
 	defer server.Close()
 
-	client := private.NewApiClient(apiKey, apiSecret, server.URL)
+	client := NewApiClient(apiKey, apiSecret, server.URL)
 
-	res, err := client.CancelOrder(private.CancelOrderParams{OrderID: 184})
+	res, err := client.CancelOrder(params)
 	if err != nil {
 		t.Fatal(err)
 	}
@@ -381,6 +396,7 @@ func TestWithdraw(t *testing.T) {
       		}
 		}
 	}`
+	params := WithdrawParams{Currency: "btc", Address: "1A1zP1eP5QGefi2DMPTfTL5SLmv7DivfNa", Amount: 0.1}
 	request := NewRequest("withdraw", expected)
 	handler := func(w http.ResponseWriter, r *http.Request) {
 		w.Header().Set("Content-Type", request.ContentType)
@@ -389,15 +405,18 @@ func TestWithdraw(t *testing.T) {
 		if r.Method != "POST" {
 			t.Errorf("Expected ‘POST’ request, got ‘%s’", r.Method)
 		}
-		io.WriteString(w, request.ExpectedBody)
+		_, err := io.WriteString(w, request.ExpectedBody)
+		if err != nil {
+			t.Errorf("Fail write body")
+		}
 	}
 
 	server := httptest.NewServer(http.HandlerFunc(handler))
 	defer server.Close()
 
-	client := private.NewApiClient(apiKey, apiSecret, server.URL)
+	client := NewApiClient(apiKey, apiSecret, server.URL)
 
-	res, err := client.Withdraw(private.WithdrawParams{Currency: "btc", Address: "1A1zP1eP5QGefi2DMPTfTL5SLmv7DivfNa", Amount: 0.1})
+	res, err := client.Withdraw(params)
 	if err != nil {
 		t.Fatal(err)
 	}
@@ -423,6 +442,7 @@ func TestDepositHistory(t *testing.T) {
 			}
 		}
 	}`
+	params := DepositHistoryParams{Currency: "btc"}
 	request := NewRequest("deposit_history", expected)
 	handler := func(w http.ResponseWriter, r *http.Request) {
 		w.Header().Set("Content-Type", request.ContentType)
@@ -431,15 +451,18 @@ func TestDepositHistory(t *testing.T) {
 		if r.Method != "POST" {
 			t.Errorf("Expected ‘POST’ request, got ‘%s’", r.Method)
 		}
-		io.WriteString(w, request.ExpectedBody)
+		_, err := io.WriteString(w, request.ExpectedBody)
+		if err != nil {
+			t.Errorf("Fail write body")
+		}
 	}
 
 	server := httptest.NewServer(http.HandlerFunc(handler))
 	defer server.Close()
 
-	client := private.NewApiClient(apiKey, apiSecret, server.URL)
+	client := NewApiClient(apiKey, apiSecret, server.URL)
 
-	res, err := client.DepositHistory(private.DepositHistoryParams{Currency: "btc"})
+	res, err := client.DepositHistory(params)
 	if err != nil {
 		t.Fatal(err)
 	}
@@ -465,6 +488,7 @@ func TestWithdrawHistory(t *testing.T) {
 			}
     	}
 	}`
+	params := WithdrawHistoryParams{Currency: "btc"}
 	request := NewRequest("withdraw_history", expected)
 	handler := func(w http.ResponseWriter, r *http.Request) {
 		w.Header().Set("Content-Type", request.ContentType)
@@ -473,15 +497,18 @@ func TestWithdrawHistory(t *testing.T) {
 		if r.Method != "POST" {
 			t.Errorf("Expected ‘POST’ request, got ‘%s’", r.Method)
 		}
-		io.WriteString(w, request.ExpectedBody)
+		_, err := io.WriteString(w, request.ExpectedBody)
+		if err != nil {
+			t.Errorf("Fail write body")
+		}
 	}
 
 	server := httptest.NewServer(http.HandlerFunc(handler))
 	defer server.Close()
 
-	client := private.NewApiClient(apiKey, apiSecret, server.URL)
+	client := NewApiClient(apiKey, apiSecret, server.URL)
 
-	res, err := client.WithdrawHistory(private.WithdrawHistoryParams{Currency: "btc"})
+	res, err := client.WithdrawHistory(params)
 	if err != nil {
 		t.Fatal(err)
 	}

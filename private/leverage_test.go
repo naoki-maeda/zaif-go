@@ -1,7 +1,6 @@
-package test
+package private
 
 import (
-	"github.com/naoki-maeda/zaif-go/private"
 	"github.com/stretchr/testify/assert"
 	"io"
 	"net/http"
@@ -34,6 +33,7 @@ func TestGetPositions(t *testing.T) {
         	}
     	}
 	}`
+	params := GetPositionsParams{Type: "futures", GroupID: 1, CurrencyPair: "btc_jpy"}
 	request := NewRequest("get_positions", expected)
 	handler := func(w http.ResponseWriter, r *http.Request) {
 		w.Header().Set("Content-Type", request.ContentType)
@@ -42,15 +42,18 @@ func TestGetPositions(t *testing.T) {
 		if r.Method != "POST" {
 			t.Errorf("Expected ‘POST’ request, got ‘%s’", r.Method)
 		}
-		io.WriteString(w, request.ExpectedBody)
+		_, err := io.WriteString(w, request.ExpectedBody)
+		if err != nil {
+			t.Errorf("Fail write body")
+		}
 	}
 
 	server := httptest.NewServer(http.HandlerFunc(handler))
 	defer server.Close()
 
-	client := private.NewApiClient(apiKey, apiSecret, server.URL)
+	client := NewApiClient(apiKey, apiSecret, server.URL)
 
-	res, err := client.GetPositions(private.GetPositionsParams{Type: "futures", GroupID: 1, CurrencyPair: "btc_jpy"})
+	res, err := client.GetPositions(params)
 	if err != nil {
 		t.Fatal(err)
 	}
@@ -84,6 +87,7 @@ func TestPositionHistory(t *testing.T) {
         	}
 		}
 	}`
+	params := PositionHistoryParams{Type: "margin"}
 	request := NewRequest("position_history", expected)
 	handler := func(w http.ResponseWriter, r *http.Request) {
 		w.Header().Set("Content-Type", request.ContentType)
@@ -92,15 +96,18 @@ func TestPositionHistory(t *testing.T) {
 		if r.Method != "POST" {
 			t.Errorf("Expected ‘POST’ request, got ‘%s’", r.Method)
 		}
-		io.WriteString(w, request.ExpectedBody)
+		_, err := io.WriteString(w, request.ExpectedBody)
+		if err != nil {
+			t.Errorf("Fail write body")
+		}
 	}
 
 	server := httptest.NewServer(http.HandlerFunc(handler))
 	defer server.Close()
 
-	client := private.NewApiClient(apiKey, apiSecret, server.URL)
+	client := NewApiClient(apiKey, apiSecret, server.URL)
 
-	res, err := client.PositionHistory(private.PositionHistoryParams{Type: "margin"})
+	res, err := client.PositionHistory(params)
 	if err != nil {
 		t.Fatal(err)
 	}
@@ -128,6 +135,7 @@ func TestActivePositions(t *testing.T) {
         	}
     	}
 	}`
+	params := ActivePositionsParams{Type: "futures", GroupID: 1, CurrencyPair: "btc_jpy"}
 	request := NewRequest("active_positions", expected)
 	handler := func(w http.ResponseWriter, r *http.Request) {
 		w.Header().Set("Content-Type", request.ContentType)
@@ -136,15 +144,18 @@ func TestActivePositions(t *testing.T) {
 		if r.Method != "POST" {
 			t.Errorf("Expected ‘POST’ request, got ‘%s’", r.Method)
 		}
-		io.WriteString(w, request.ExpectedBody)
+		_, err := io.WriteString(w, request.ExpectedBody)
+		if err != nil {
+			t.Errorf("Fail write body")
+		}
 	}
 
 	server := httptest.NewServer(http.HandlerFunc(handler))
 	defer server.Close()
 
-	client := private.NewApiClient(apiKey, apiSecret, server.URL)
+	client := NewApiClient(apiKey, apiSecret, server.URL)
 
-	res, err := client.ActivePositions(private.ActivePositionsParams{Type: "futures", GroupID: 1, CurrencyPair: "btc_jpy"})
+	res, err := client.ActivePositions(params)
 	if err != nil {
 		t.Fatal(err)
 	}
@@ -169,6 +180,7 @@ func TestCreatePosition(t *testing.T) {
         	}
     	}
 	}`
+	params := CreatePositionParams{Type: "futures", GroupID: 1, CurrencyPair: "btc_jpy"}
 	request := NewRequest("create_position", expected)
 	handler := func(w http.ResponseWriter, r *http.Request) {
 		w.Header().Set("Content-Type", request.ContentType)
@@ -177,15 +189,18 @@ func TestCreatePosition(t *testing.T) {
 		if r.Method != "POST" {
 			t.Errorf("Expected ‘POST’ request, got ‘%s’", r.Method)
 		}
-		io.WriteString(w, request.ExpectedBody)
+		_, err := io.WriteString(w, request.ExpectedBody)
+		if err != nil {
+			t.Errorf("Fail write body")
+		}
 	}
 
 	server := httptest.NewServer(http.HandlerFunc(handler))
 	defer server.Close()
 
-	client := private.NewApiClient(apiKey, apiSecret, server.URL)
+	client := NewApiClient(apiKey, apiSecret, server.URL)
 
-	res, err := client.CreatePosition(private.CreatePositionParams{Type: "futures", GroupID: 1, CurrencyPair: "btc_jpy"})
+	res, err := client.CreatePosition(params)
 	if err != nil {
 		t.Fatal(err)
 	}
@@ -202,6 +217,7 @@ func TestChangePosition(t *testing.T) {
         	"amount_done": 0.0001
     	}
 	}`
+	params := ChangePositionParams{Type: "futures", GroupID: 1, LeverageId: 22258, Price: 119000}
 	request := NewRequest("create_position", expected)
 	handler := func(w http.ResponseWriter, r *http.Request) {
 		w.Header().Set("Content-Type", request.ContentType)
@@ -210,15 +226,18 @@ func TestChangePosition(t *testing.T) {
 		if r.Method != "POST" {
 			t.Errorf("Expected ‘POST’ request, got ‘%s’", r.Method)
 		}
-		io.WriteString(w, request.ExpectedBody)
+		_, err := io.WriteString(w, request.ExpectedBody)
+		if err != nil {
+			t.Errorf("Fail write body")
+		}
 	}
 
 	server := httptest.NewServer(http.HandlerFunc(handler))
 	defer server.Close()
 
-	client := private.NewApiClient(apiKey, apiSecret, server.URL)
+	client := NewApiClient(apiKey, apiSecret, server.URL)
 
-	res, err := client.ChangePosition(private.ChangePositionParams{Type: "futures", GroupID: 1, LeverageId: 22258, Price: 119000})
+	res, err := client.ChangePosition(params)
 	if err != nil {
 		t.Fatal(err)
 	}
@@ -243,6 +262,7 @@ func TestChancelPosition(t *testing.T) {
         	"swap": 0.0
     	}
 	}`
+	params := CancelPositionParams{Type: "futures", GroupID: 1, LeverageId: 2072}
 	request := NewRequest("cancel_position", expected)
 	handler := func(w http.ResponseWriter, r *http.Request) {
 		w.Header().Set("Content-Type", request.ContentType)
@@ -251,15 +271,18 @@ func TestChancelPosition(t *testing.T) {
 		if r.Method != "POST" {
 			t.Errorf("Expected ‘POST’ request, got ‘%s’", r.Method)
 		}
-		io.WriteString(w, request.ExpectedBody)
+		_, err := io.WriteString(w, request.ExpectedBody)
+		if err != nil {
+			t.Errorf("Fail write body")
+		}
 	}
 
 	server := httptest.NewServer(http.HandlerFunc(handler))
 	defer server.Close()
 
-	client := private.NewApiClient(apiKey, apiSecret, server.URL)
+	client := NewApiClient(apiKey, apiSecret, server.URL)
 
-	res, err := client.CancelPosition(private.CancelPositionParams{Type: "futures", GroupID: 1, LeverageId: 2072})
+	res, err := client.CancelPosition(params)
 	if err != nil {
 		t.Fatal(err)
 	}

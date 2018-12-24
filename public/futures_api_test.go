@@ -1,7 +1,6 @@
-package test
+package public
 
 import (
-	"github.com/naoki-maeda/zaif-go/public"
 	"github.com/stretchr/testify/assert"
 	"io"
 	"net/http"
@@ -30,7 +29,7 @@ func TestGroups(t *testing.T) {
 	server := httptest.NewServer(http.HandlerFunc(handler))
 	defer server.Close()
 
-	client := public.NewApiClient(server.URL)
+	client := NewApiClient(server.URL)
 
 	res, err := client.Groups(groupId)
 	if err != nil {
@@ -55,7 +54,7 @@ func TestFuturesLastPrice(t *testing.T) {
 	server := httptest.NewServer(http.HandlerFunc(handler))
 	defer server.Close()
 
-	client := public.NewApiClient(server.URL)
+	client := NewApiClient(server.URL)
 
 	res, err := client.FuturesLastPrice(groupId, currencyPair)
 	if err != nil {
@@ -89,7 +88,7 @@ func TestFuturesTicker(t *testing.T) {
 	server := httptest.NewServer(http.HandlerFunc(handler))
 	defer server.Close()
 
-	client := public.NewApiClient(server.URL)
+	client := NewApiClient(server.URL)
 
 	res, err := client.FuturesTicker(groupId, currencyPair)
 	if err != nil {
@@ -130,7 +129,7 @@ func TestFuturesTrades(t *testing.T) {
 	server := httptest.NewServer(http.HandlerFunc(handler))
 	defer server.Close()
 
-	client := public.NewApiClient(server.URL)
+	client := NewApiClient(server.URL)
 
 	res, err := client.FuturesTrades(groupId, currencyPair)
 	if err != nil {
@@ -159,7 +158,7 @@ func TestFuturesDepth(t *testing.T) {
 	server := httptest.NewServer(http.HandlerFunc(handler))
 	defer server.Close()
 
-	client := public.NewApiClient(server.URL)
+	client := NewApiClient(server.URL)
 
 	res, err := client.FuturesDepth(groupId, currencyPair)
 	if err != nil {
@@ -194,7 +193,7 @@ func TestSwapHistory(t *testing.T) {
 	server := httptest.NewServer(http.HandlerFunc(handler))
 	defer server.Close()
 
-	client := public.NewApiClient(server.URL)
+	client := NewApiClient(server.URL)
 
 	res, err := client.SwapHistory(groupId, currencyPair)
 	if err != nil {
