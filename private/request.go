@@ -6,6 +6,7 @@ import (
 	"net/http"
 	"net/url"
 	"reflect"
+	"strconv"
 	"strings"
 )
 
@@ -74,16 +75,14 @@ func SetParam(param interface{}) url.Values {
 	var ret url.Values
 	ret = url.Values{}
 	v := reflect.Indirect(reflect.ValueOf(param))
-
 	num := reflect.ValueOf(param).Type().NumField()
 
 	for i := 0; i < num; i++ {
 		f := reflect.TypeOf(param).Field(i)
-
 		tag := f.Tag.Get("url")
-		v := v.Field(i).Interface()
+		vf := v.Field(i)
 		var value string
-		switch t := v.(type) {
+		switch t := vf.Interface().(type) {
 		case string:
 			if t == "" {
 				continue
@@ -94,11 +93,16 @@ func SetParam(param interface{}) url.Values {
 				continue
 			}
 			value = fmt.Sprintf("%v", t)
-		case float64, float32:
+		case float64:
 			if t == 0.0 {
 				continue
 			}
-			value = fmt.Sprintf("%v", t)
+			value = strconv.FormatFloat(vf.Float(), 'f', -1, 64)
+		case float32:
+			if t == 0.0 {
+				continue
+			}
+			value = strconv.FormatFloat(vf.Float(), 'f', -1, 32)
 		case int64, uint64, int32, uint32, int, uint:
 			if t == 0 {
 				continue
